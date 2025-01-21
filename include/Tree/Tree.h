@@ -10,6 +10,7 @@ struct Tree {
     Node<_Type>* __insert(_Type, Node<_Type>*&);
     void destruct(Node<_Type>*);
     void __print(Node<_Type>*);
+    void updateHeight(Node<_Type>*);
 
 public:
     Tree(Node<_Type> *root=nullptr);

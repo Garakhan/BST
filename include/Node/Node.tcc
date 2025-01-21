@@ -8,4 +8,6 @@ template<typename _Type, typename _Enable>
     }
 
 template <typename _Type, typename _Enable>
-    Node<_Type, _Enable>::~Node() {}
+    Node<_Type, _Enable>::~Node() {
+        // std::cout<<"Node["<<data<<"] deleted."<<std::endl;
+    }

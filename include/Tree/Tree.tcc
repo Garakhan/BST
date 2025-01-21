@@ -1,4 +1,4 @@
-// #include "Tree.h"
+#include "Tree.h"
 
 template<typename _Type>
 Tree<_Type>::Tree(Node<_Type> *root):root(root) {}
@@ -62,4 +62,20 @@ void Tree<_Type>::__print(Node<_Type> *node) {
 template<typename _Type>
 void Tree<_Type>::print() {
     __print(root);
+}
+
+template<typename _Type>
+void Tree<_Type>::updateHeight(Node<_Type>* node) {
+    if(node==nullptr){
+        return 0;
+    }
+    int left=-1, right=-1;
+    if (node->left!=nullptr){
+        left = node->left->height;
+    }
+    if (node->right!=nullptr){
+        right = node->right->height;
+    }
+    node->height = std::max(node->left->height, node->right->height)+1;
+    return;
 }
