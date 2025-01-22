@@ -6,21 +6,22 @@
 
 template <typename _Type = int >
 struct Tree {
-    Node<_Type> *root;
-    Node<_Type>* __insert(_Type, Node<_Type>*&);
-    void destruct(Node<_Type>*);
-    void __print(Node<_Type>*);
-    int updateHeight(Node<_Type>*);
+    typedef Node<_Type> Node_t;
+    Node_t *root;
+    Node_t* __insert(_Type, Node_t*&);
+    void destruct(Node_t*);
+    void __print(Node_t*);
+    int updateHeight(Node_t*);
     /**
      * @brief Update individual node balance
      * Calculates by subtracting height of right child from left child
      * @param node Node to be calculated
      * @return <0 if left-heavy, >0 if right-heavy, 0 if perfectly balanced.
      */
-    int updateBalance(Node<_Type>*);
+    int updateBalance(Node_t*);
     /**
      * @brief Rotate subtree at the given root node anti-clockwise
-     * It should make the current node parent of its parent.
+     * It should make the current node child of its child.
      * Example
      *              Z
      *             / \
@@ -35,15 +36,13 @@ struct Tree {
      *            Z   T3
      *           / \
      *          T1  T2
-     * Since the nodes contain pointer to their parent nodes,
-     * no additional arguments needed.
      * @param node Root of the subtree to be rotated (Node Z in the example above).
      * @return The new root of the rotated subtree (Node Y in this example)
      */
-    Node<_Type>* rotateLeft(Node<_Type>*);
+    Node_t* rotateLeft(Node_t*);
     /**
      * @brief Rotate subtree at the given root node clockwise
-     * It should make the current node parent of its parent.
+     * It should make the current node child of its child.
      * Examaple
      *              Z
      *             / \
@@ -58,17 +57,17 @@ struct Tree {
      *            T1  Z
      *               / \
      *              T2  T3
-     * Since the nodes contain pointer to their parent nodes,
-     * no additional arguments needed.
      * @param node Root of the subtree to be rotated (Node Z in the example above).
      * @return The new root of the rotated subtree (Node Y in this example)
      */
-    Node<_Type>* rotateRight(Node<_Type>*);
+    Node_t* rotateRight(Node_t*);
+    Node_t* getNodeByKey(_Type, Node_t*);
 
 public:
-    Tree(Node<_Type> *root=nullptr);
+    Tree(Node_t *root=nullptr);
     ~Tree();
-    Node<_Type>* insert(_Type);
+    Node_t* insert(_Type);
+    Node_t* remove(_Type);
     void print();
 };
 

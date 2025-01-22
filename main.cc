@@ -28,10 +28,11 @@ int main() {
     Node<> *n6 = tree.insert(300);
     Node<> *n7 = tree.insert(400);
     cout<<"~~~~~~~~~~~~~~~~~~~~~~"<<endl;
-    cout<<tree.root->data<<endl;
+    cout<<tree.root->getKey()<<endl;
     cout<<tree.root->left->data<<endl;
     cout<<tree.root->right->data<<endl;
     cout<<tree.root->right->right->data<<endl;
+    cout<<tree.root->right->right->right->right->getKey()<<endl;
     // cout<<tree.root->left->left->data<<endl;
     tree.print();
 }

@@ -1,5 +1,10 @@
-#include "Tree.h"
+// #include "Tree.h"
 #define BREAKPOINT std::cout<<"==>BREAK<=="<<std::endl
+#define __TYPEALIAS_
+#ifdef __TYPEALIAS_
+template<typename _Type>
+using Node_t =  Node<_Type>;
+#endif
 
 template<typename _Type>
 Tree<_Type>::Tree(Node<_Type> *root):root(root) {}
@@ -51,7 +56,7 @@ Node<_Type>* Tree<_Type>::__insert(_Type key, Node<_Type>*& node){
     } else {
         return node;
     }
-    int h = updateHeight(curr);
+    updateHeight(curr);
     updateBalance(curr);
     if (curr->balance==2){
         if (updateBalance(curr->right)==-1){//nullptr case
@@ -158,3 +163,30 @@ Node<_Type>* Tree<_Type>::rotateRight(Node<_Type>* node){
     updateBalance(left);
     return left;
 }
+
+
+template<typename _Type>
+Node<_Type>* Tree<_Type>::getNodeByKey(_Type key, Node<_Type>* node){
+    if (key==node->data){
+        return node;
+    } else if (key<node->data){
+        return getNodebyKey(key, node->left);
+    } else if (key>node->data){
+        return getNodeByKey(key, node->right);
+    } else {
+        return nullptr;
+    }
+}
+
+
+template<typename _Type>
+Node_t* Tree<_Type>::remove(_Type key){
+    Node<_Type>* node = getNodeByKey(key, root);
+    if(node==nullptr){
+        std::cerr<<"Key not in tree. Aborting remove."<<std::endl;
+        // return;
+    }
+    
+}
+
+#undef __TYPEALIAS_

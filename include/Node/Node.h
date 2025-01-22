@@ -20,6 +20,9 @@ struct Node {
     friend class Tree<_Type>;
 
 public:
+    int getKey();
+    Node<_Type>* getLeft();
+    Node<_Type>* getRight();
     Node(_Type key, Node<_Type> *left=nullptr, Node<_Type> *right = nullptr);
     ~Node();
 };
