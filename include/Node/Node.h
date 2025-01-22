@@ -8,14 +8,15 @@
 template<typename _Type>
 class Tree;
 
-template<typename _Type, typename = std::enable_if_t<
+template<typename _Type = int, typename = std::enable_if_t<
     std::is_same_v<decltype(std::declval<_Type>() < std::declval<_Type>()), bool>
     >>
 struct Node {
     _Type data;
     Node<_Type>* left;
     Node<_Type>* right;
-    size_t height;
+    int height;
+    int balance;
     friend class Tree<_Type>;
 
 public:

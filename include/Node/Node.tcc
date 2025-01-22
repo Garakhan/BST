@@ -5,6 +5,7 @@ template<typename _Type, typename _Enable>
                                         data(key), left(left), right(right)
     {
         height = 0;
+        balance = 0;
     }
 
 template <typename _Type, typename _Enable>
