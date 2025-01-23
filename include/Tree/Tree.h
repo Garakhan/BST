@@ -7,7 +7,8 @@
 template <typename _Type = int >
 struct Tree {
     typedef Node<_Type> Node_t;
-    Node_t *root;
+    // using Node_t = Node<_Type>;
+    Node_t* root;
     Node_t* __insert(_Type, Node_t*&);
     void destruct(Node_t*);
     void __print(Node_t*);
@@ -62,6 +63,14 @@ struct Tree {
      */
     Node_t* rotateRight(Node_t*);
     Node_t* getNodeByKey(_Type, Node_t*);
+    Node_t* __remove(_Type, Node_t*);
+    /**
+     * @brief Find smallest larger node relative to the given node
+     * Node has to have two children
+     * @param node pointer to Node<_Type>
+     * @return key pointer to node
+     */
+    _Type __findMax(Node_t*);
 
 public:
     Tree(Node_t *root=nullptr);

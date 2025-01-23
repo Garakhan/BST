@@ -1,9 +1,12 @@
-// #include "Tree.h"
+#include "Tree.h"
 #define BREAKPOINT std::cout<<"==>BREAK<=="<<std::endl
+#define PRINT(x) std::cout<<x<<std::endl
+
+//TODO: type alias does not work for function return type
 #define __TYPEALIAS_
 #ifdef __TYPEALIAS_
 template<typename _Type>
-using Node_t =  Node<_Type>;
+using Node_t = Node<_Type>;
 #endif
 
 template<typename _Type>
@@ -67,7 +70,7 @@ Node<_Type>* Tree<_Type>::__insert(_Type key, Node<_Type>*& node){
         }
     } else if (curr->balance==-2) {
         if (updateBalance(curr->left)==1){ //nullptr case
-            curr->left = rotateLeft(curr->right);
+            curr->left = rotateLeft(curr->left);
             return rotateRight(curr);
         } else {
             return rotateRight(curr);
@@ -105,6 +108,9 @@ int Tree<_Type>::updateHeight(Node<_Type>* node) {
         right = node->right->height;
     }
     node->height = std::max(left, right)+1;
+    // if (node!=nullptr && node->data==200) {
+    //     std::cout<<"Height: "<<node->height<<std::endl;
+    // }
     return node->height;
 }
 
@@ -178,15 +184,77 @@ Node<_Type>* Tree<_Type>::getNodeByKey(_Type key, Node<_Type>* node){
     }
 }
 
+template<typename _Type>
+Node<_Type>* Tree<_Type>::__remove(_Type key, Node_t* node){
+    Node_t* curr = node;
+    if(node==nullptr){
+        std::cerr<<"Key not in tree. Aborting __remove."<<std::endl;
+        // return;
+        return root;
+    }
+    // removing leaf node
+    if (node->left!=nullptr && key<node->data) {
+        node->left = __remove(key, node->left);
+    } else if (node->right!=nullptr && key>node->data) {
+        node->right = __remove(key, node->right);
+    }
+    else {
+        // __remove leaf node
+        if(node->left==nullptr && node->right==nullptr){
+            delete node;
+            node = nullptr;
+        // __remove node has only right child
+        } else if(node->left==nullptr && node->right!=nullptr){
+            node=node->right;
+            delete curr;
+        // __remove node has only left child
+        } else if(node->left!=nullptr && node->right==nullptr){
+            node=node->left;
+            delete curr;
+        // node has two children
+        } else {
+            _Type maxVal = __findMax(node->right);
+            node->data = maxVal;
+            node->right = __remove(maxVal, node->right);
+        }
+    }
+    updateHeight(node);
+    updateBalance(node);
+    if (node!=nullptr && node->balance==2){
+        if (updateBalance(node->right)==-1){//nullptr case
+            node->right = rotateRight(node->right);
+            return rotateLeft(node);
+        } else {
+            return rotateLeft(node);
+        }
+    } else if (node!=nullptr && node->balance==-2) {
+        if (updateBalance(node->left)==1){ //nullptr case
+            node->left = rotateLeft(node->right);
+            return rotateRight(node);
+        } else {
+            return rotateRight(node);
+        }
+    }
+    // if (node!=nullptr){
+    //     std::cout<<"- "<<node->data<<std::endl;
+    // } else {
+    //     std::cout<<"- "<<"NULL"<<std::endl;
+    // }
+    return node;
+}
 
 template<typename _Type>
-Node_t* Tree<_Type>::remove(_Type key){
-    Node<_Type>* node = getNodeByKey(key, root);
-    if(node==nullptr){
-        std::cerr<<"Key not in tree. Aborting remove."<<std::endl;
-        // return;
+Node<_Type>* Tree<_Type>::remove(_Type key){
+    root = __remove(key, root);
+    return root;
+}
+
+template<typename _Type>
+_Type Tree<_Type>::__findMax(Node_t* node){
+    if (node->left==nullptr){
+        return node->data;
     }
-    
+    return __findMax(node->left);
 }
 
 #undef __TYPEALIAS_
