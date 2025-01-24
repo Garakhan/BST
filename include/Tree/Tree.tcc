@@ -1,14 +1,3 @@
-#include "Tree.h"
-#define BREAKPOINT std::cout<<"==>BREAK<=="<<std::endl
-#define PRINT(x) std::cout<<x<<std::endl
-
-//TODO: type alias does not work for function return type
-#define __TYPEALIAS_
-#ifdef __TYPEALIAS_
-template<typename _Type>
-using Node_t = Node<_Type>;
-#endif
-
 template<typename _Type>
 Tree<_Type>::Tree(Node<_Type> *root):root(root) {}
 
