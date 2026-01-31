@@ -1,17 +1,12 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.10)
+project(BST)
 
-project($ENV{projectName})
-set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-file(GLOB SRC src/*)
-file(GLOB INCLUDES RELATIVE ${INCLUDE_DIR} ${INCLUDE_DIR}/*)
+set (EXEC_SOURCE $ENV{EXEC_SOURCE})
+set (EXEC_NAME $ENV{EXEC_NAME})
+set (INCLUDE_DIR $ENV{INCLUDE_DIR})
 
-add_executable(${PROJECT_NAME} $ENV{fileName} ${SRC})
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
-
-
-foreach(DIRS ${INCLUDES})
-    if (IS_DIRECTORY ${INCLUDE_DIR}/${DIRS})
-        target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIR}/${DIRS})
-    endif()
-endforeach()
+add_executable(${EXEC_NAME} ${EXEC_SOURCE})
+target_include_directories(${EXEC_NAME} PRIVATE ${INCLUDE_DIR})

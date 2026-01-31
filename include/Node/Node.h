@@ -1,32 +1,19 @@
-#ifndef __NODE_H__
-#define __NODE_H__
+#ifndef _NODE_H_
+#define _NODE_H_
 
-#include <type_traits>
-#include <cstddef>
-#include <iostream>
-
-template<typename _Type>
-class Tree;
-
-template<typename _Type = int, typename = std::enable_if_t<
-    std::is_same_v<decltype(std::declval<_Type>() < std::declval<_Type>()), bool>
-    >>
-struct Node {
-    _Type data;
-    Node<_Type>* left;
-    Node<_Type>* right;
-    int height;
-    int balance;
-    friend class Tree<_Type>;
+#include <memory>
+template <typename Type>
+class Node {
+    Type data;
+    std::unique_ptr<Node> left;
+    std::unique_ptr<Node> right;
 
 public:
-    int getKey();
-    Node<_Type>* getLeft();
-    Node<_Type>* getRight();
-    Node(_Type key, Node<_Type> *left=nullptr, Node<_Type> *right = nullptr);
+    Node(Type value, Node* left = nullptr, Node* right = nullptr);
     ~Node();
+    Type get_data() const noexcept;
 };
 
 #include "Node.tcc"
 
-#endif
+#endif // _NODE_H_

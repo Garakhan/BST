@@ -1,39 +1,29 @@
-defaultFileName:=main.cc
-defaultBuildDir:=build
+EXEC_SOURCE := main.cc
+BUILD_DIR := build
+EXEC_NAME := BST
+INCLUDE_DIR := include
 
-fileName:=$(shell if [ ! -z $(filename) ]; then echo $(filename); else echo $(defaultFileName); fi)
-execName:=$(basename $(fileName))
-buildDir:=$(shell if [ ! -z $(builddir) ]; then echo $(builddir); else echo $(defaultBuildDir); fi)
+export EXEC_SOURCE
+# export BUILD_DIR
+export EXEC_NAME
+export INCLUDE_DIR
 
-defaultProjectName:=$(execName)
-projectName:=$(shell if [ ! -z $(projectname) ];then echo $(projectname); else echo $(defaultProjectName); fi)
+all: build run
 
-export projectName
-export fileName
+.PHONY: run
+run: | make_build_dir
+	@echo ---------------------
+	./$(BUILD_DIR)/${EXEC_NAME}
 
+.PHONY: build
+build:| make_build_dir
+	cmake -S . -B $(BUILD_DIR)
+	cmake --build $(BUILD_DIR)
 
-.SILENT:
-.PHONY: default all clean help
-
-default: 
-	@cd	 $(buildDir) && make
-	@echo "-----------------------------"
-	@cd $(buildDir) && ./$(execName)
-
-
-all:
-	@mkdir -p $(buildDir)
-	@cd $(buildDir) && cmake ..
-	@cd $(buildDir) && make
-	@echo "-----------------------------"
-	@cd $(buildDir) && ./$(execName)
-
-
+.PHONY: clean
 clean:
-	@rm -rf $(buildDir)
+	rm -rf $(BUILD_DIR)
 
-help:
-	@echo @argument: projectname - creates executable with this name
-	@echo @argument: filename - main file name to compile
-	@echo @argument: builddir - name of the directory to build the project into
-	@echo Example: projectname=AVL make all
+.PHONY: make_build_dir
+make_build_dir:
+	mkdir -p $(BUILD_DIR)
